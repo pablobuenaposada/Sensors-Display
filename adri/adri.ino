@@ -25,6 +25,13 @@ boolean featureFlag;
 #define SETTINGS "SETTINGS"
 #define SETTINGSCOL 6
 //-------------------------------------
+#define ALARMPRESSINGTIME 1000
+#define ALARMNAME "ALARM SETUP"
+#define ALARMNAMECOL 4
+int alarmFeature;
+boolean alarmFlag;
+//-------------------------------------
+
 #define DEBOUNCING 100
 #define BUTTON1 2
 #define BUTTON2 3
@@ -55,12 +62,18 @@ int warningScreen=-1;
 #define PEAKSTRING "VALORS MAXIMS"
 #define PEAKCOL 3
 //-------------------------------------
-#define SENSOR1WARNING 20
-#define SENSOR2WARNING 90999
-#define SENSOR3WARNING 90999
-#define SENSOR4WARNING 90999
-#define SENSOR5WARNING 90999
-#define SENSOR6WARNING 90999
+int SENSOR1WARNING=20;
+int SENSOR2WARNING=90999;
+int SENSOR3WARNING=90999;
+int SENSOR4WARNING=90999;
+int SENSOR5WARNING=90999;
+int SENSOR6WARNING=90999;
+#define EEPROMSENSOR1WARNING 2
+#define EEPROMSENSOR2WARNING 3
+#define EEPROMSENSOR3WARNING 4
+#define EEPROMSENSOR4WARNING 5
+#define EEPROMSENSOR5WARNING 6
+#define EEPROMSENSOR6WARNING 7
 //-------------------------------------
 #define SENSOR1NAME "OLI"
 #define SENSOR1UNITS "ºC"
@@ -115,7 +128,14 @@ void setup() {
   speaker = EEPROM.read(1);
   if(!speaker){
     pinMode(RELAY1,INPUT);
-  }  
+  } 
+ 
+  SENSOR1WARNING=EEPROM.read(EEPROMSENSOR1WARNING);
+  SENSOR2WARNING=EEPROM.read(EEPROMSENSOR2WARNING);
+  SENSOR3WARNING=EEPROM.read(EEPROMSENSOR3WARNING);
+  SENSOR4WARNING=EEPROM.read(EEPROMSENSOR4WARNING);
+  SENSOR5WARNING=EEPROM.read(EEPROMSENSOR5WARNING);
+  SENSOR6WARNING=EEPROM.read(EEPROMSENSOR6WARNING); 
   
   pinMode(SENSOR1,INPUT);
   pinMode(SENSOR2,INPUT);
@@ -212,8 +232,45 @@ void loop() {
         featureFlag=false;
         actualScreen=1;
         settingsSaved();
-      }    
+      }  
     } 
+    else if(actualScreen == 7){
+      
+      lcd.setCursor(ALARMNAMECOL,0);
+      lcd.print(ALARMNAME);
+      
+      printValue(1,0,true,SENSOR1NAME,EEPROM.read(EEPROMSENSOR1WARNING),true,false,SENSOR1UNITS);
+      if(alarmFeature == 1){
+        lcd.print("*");
+        if(alarmFlag){
+          EEPROM.write(EEPROMSENSOR1WARNING,EEPROM.read(EEPROMSENSOR1WARNING)+1);
+          alarmFlag = false;
+        }
+      }
+      printValue(2,0,true,SENSOR2NAME,EEPROM.read(EEPROMSENSOR2WARNING),false,false,SENSOR2UNITS);
+      if(alarmFeature == 2){
+        lcd.print("*");
+        if(alarmFlag){
+          EEPROM.write(EEPROMSENSOR2WARNING,EEPROM.read(EEPROMSENSOR2WARNING)+1);
+          alarmFlag = false;
+        }
+      }
+      printValue(3,0,true,SENSOR3NAME,EEPROM.read(EEPROMSENSOR3WARNING),true,false,SENSOR3UNITS);
+      if(alarmFeature == 3){
+        lcd.print("*");
+        if(alarmFlag){
+          EEPROM.write(EEPROMSENSOR3WARNING,EEPROM.read(EEPROMSENSOR3WARNING)+1);
+          alarmFlag = false;
+        }
+      }
+      
+      if(alarmFeature == 4){
+        alarmFlag=false;
+        actualScreen=1;
+        settingsSaved();
+      }         
+      
+    }
   }
   delay(100);
 }
@@ -483,6 +540,9 @@ void button1ISR(){
     if(actualScreen == TOTALSCREENS+1){
       featureFlag=true;       
     }
+    else if(actualScreen == TOTALSCREENS+2){
+      alarmFlag=true;
+    }
     else if(warningScreen > 0){
       actualScreen=1; //cuando queremos parar el sonido de una alarma que vuelva a la pantalla 1
     }
@@ -500,8 +560,21 @@ void button1ISR(){
 
 void button2ISR(){  
   unsigned long interrupt_time = millis();  
-  if (interrupt_time - last_interrupt_time > DEBOUNCING){    
-    if(actualScreen == TOTALSCREENS+1){
+  if (interrupt_time - last_interrupt_time > DEBOUNCING){ 
+    unsigned long timePressed = 0;
+    while(digitalRead(BUTTON2) == LOW && timePressed < ALARMPRESSINGTIME){
+      timePressed+=1;
+      delay(1);      
+    }
+    
+    if(timePressed >= ALARMPRESSINGTIME){
+      actualScreen=7;
+      alarmFeature=1; 
+    }
+    else if(actualScreen == TOTALSCREENS+2){
+      alarmFeature=alarmFeature+1;
+    }    
+    else if(actualScreen == TOTALSCREENS+1){
       feature=feature+1;    
     }
     else{
@@ -510,7 +583,8 @@ void button2ISR(){
     }    
     lcd.clear();
     warningScreen=0;    
-  } 
+  }
+  
   last_interrupt_time = interrupt_time;   
 }
 
