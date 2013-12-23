@@ -62,18 +62,30 @@ int warningScreen=-1;
 #define PEAKSTRING "VALORS MAXIMS"
 #define PEAKCOL 3
 //-------------------------------------
-int SENSOR1WARNING=20;
-int SENSOR2WARNING=90999;
-int SENSOR3WARNING=90999;
-int SENSOR4WARNING=90999;
-int SENSOR5WARNING=90999;
-int SENSOR6WARNING=90999;
-#define EEPROMSENSOR1WARNING 2
-#define EEPROMSENSOR2WARNING 3
-#define EEPROMSENSOR3WARNING 4
-#define EEPROMSENSOR4WARNING 5
-#define EEPROMSENSOR5WARNING 6
-#define EEPROMSENSOR6WARNING 7
+int SENSOR1WARNINGMAX;
+int SENSOR2WARNINGMAX;
+int SENSOR3WARNINGMAX;
+int SENSOR4WARNINGMAX;
+int SENSOR5WARNINGMAX;
+int SENSOR6WARNINGMAX;
+int SENSOR1WARNINGMIN;
+int SENSOR2WARNINGMIN;
+int SENSOR3WARNINGMIN;
+int SENSOR4WARNINGMIN;
+int SENSOR5WARNINGMIN;
+int SENSOR6WARNINGMIN;
+#define EEPROMSENSOR1WARNINGMAX 2
+#define EEPROMSENSOR2WARNINGMAX 3
+#define EEPROMSENSOR3WARNINGMAX 4
+#define EEPROMSENSOR4WARNINGMAX 5
+#define EEPROMSENSOR5WARNINGMAX 6
+#define EEPROMSENSOR6WARNINGMAX 7
+#define EEPROMSENSOR1WARNINGMIN 8
+#define EEPROMSENSOR2WARNINGMIN 9
+#define EEPROMSENSOR3WARNINGMIN 10
+#define EEPROMSENSOR4WARNINGMIN 11
+#define EEPROMSENSOR5WARNINGMIN 12
+#define EEPROMSENSOR6WARNINGMIN 13
 //-------------------------------------
 #define SENSOR1NAME "OLI"
 #define SENSOR1UNITS "ºC"
@@ -122,20 +134,24 @@ void setup() {
   attachInterrupt(1, button2ISR, LOW);
 
   pinMode(LED,OUTPUT);
-  pinMode(RELAY1,OUTPUT);
-  speakerTone(50);
   
-  speaker = EEPROM.read(1);
-  if(!speaker){
-    pinMode(RELAY1,INPUT);
-  } 
+  pinMode(RELAY1,OUTPUT);
+  speaker = true;
+  speakerTone(50);  
+  speaker = EEPROM.read(1);    
  
-  SENSOR1WARNING=EEPROM.read(EEPROMSENSOR1WARNING);
-  SENSOR2WARNING=EEPROM.read(EEPROMSENSOR2WARNING);
-  SENSOR3WARNING=EEPROM.read(EEPROMSENSOR3WARNING);
-  SENSOR4WARNING=EEPROM.read(EEPROMSENSOR4WARNING);
-  SENSOR5WARNING=EEPROM.read(EEPROMSENSOR5WARNING);
-  SENSOR6WARNING=EEPROM.read(EEPROMSENSOR6WARNING); 
+  SENSOR1WARNINGMAX=EEPROM.read(EEPROMSENSOR1WARNINGMAX);
+  EEPROM.write(EEPROMSENSOR2WARNINGMAX,255);
+  EEPROM.write(EEPROMSENSOR3WARNINGMAX,255);
+  EEPROM.write(EEPROMSENSOR4WARNINGMAX,255);
+  EEPROM.write(EEPROMSENSOR5WARNINGMAX,255);
+  EEPROM.write(EEPROMSENSOR6WARNINGMAX,255);  
+  SENSOR1WARNINGMIN=EEPROM.read(EEPROMSENSOR1WARNINGMIN);
+  EEPROM.write(EEPROMSENSOR2WARNINGMIN,0);
+  EEPROM.write(EEPROMSENSOR3WARNINGMIN,0);
+  EEPROM.write(EEPROMSENSOR4WARNINGMIN,0);
+  EEPROM.write(EEPROMSENSOR5WARNINGMIN,0);
+  EEPROM.write(EEPROMSENSOR6WARNINGMIN,0);
   
   pinMode(SENSOR1,INPUT);
   pinMode(SENSOR2,INPUT);
@@ -214,7 +230,7 @@ void loop() {
           lcd.setCursor(10,1);     
           lcd.print("* ");
           if (featureFlag){
-            EEPROM.write(EEPROMSPEAKER,0);             
+            EEPROM.write(EEPROMSPEAKER,0);            
             featureFlag=false;            
           }  
         }
@@ -239,32 +255,61 @@ void loop() {
       lcd.setCursor(ALARMNAMECOL,0);
       lcd.print(ALARMNAME);
       
-      printValue(1,0,true,SENSOR1NAME,EEPROM.read(EEPROMSENSOR1WARNING),true,false,SENSOR1UNITS);
+      printValue(1,0,true,SENSOR1NAME,EEPROM.read(EEPROMSENSOR1WARNINGMIN),false,false,"");
+      lcd.print("|");
+      printValue(1,9,false,SENSOR1NAME,EEPROM.read(EEPROMSENSOR1WARNINGMAX),true,false,SENSOR1UNITS);
       if(alarmFeature == 1){
         lcd.print("*");
         if(alarmFlag){
-          EEPROM.write(EEPROMSENSOR1WARNING,EEPROM.read(EEPROMSENSOR1WARNING)+1);
+          EEPROM.write(EEPROMSENSOR1WARNINGMIN,EEPROM.read(EEPROMSENSOR1WARNINGMIN)+1);
           alarmFlag = false;
         }
       }
-      printValue(2,0,true,SENSOR2NAME,EEPROM.read(EEPROMSENSOR2WARNING),false,false,SENSOR2UNITS);
-      if(alarmFeature == 2){
+      else if(alarmFeature == 2){
         lcd.print("*");
         if(alarmFlag){
-          EEPROM.write(EEPROMSENSOR2WARNING,EEPROM.read(EEPROMSENSOR2WARNING)+1);
-          alarmFlag = false;
-        }
-      }
-      printValue(3,0,true,SENSOR3NAME,EEPROM.read(EEPROMSENSOR3WARNING),true,false,SENSOR3UNITS);
-      if(alarmFeature == 3){
-        lcd.print("*");
-        if(alarmFlag){
-          EEPROM.write(EEPROMSENSOR3WARNING,EEPROM.read(EEPROMSENSOR3WARNING)+1);
+          EEPROM.write(EEPROMSENSOR1WARNINGMAX,EEPROM.read(EEPROMSENSOR1WARNINGMAX)+1);
           alarmFlag = false;
         }
       }
       
-      if(alarmFeature == 4){
+      printValue(2,0,true,SENSOR2NAME,EEPROM.read(EEPROMSENSOR2WARNINGMIN),false,false,"");
+      lcd.print("|");
+      printValue(2,9,false,SENSOR2NAME,EEPROM.read(EEPROMSENSOR2WARNINGMAX),false,false,SENSOR2UNITS);
+      if(alarmFeature == 3){
+        lcd.print("*");
+        if(alarmFlag){
+          EEPROM.write(EEPROMSENSOR2WARNINGMIN,EEPROM.read(EEPROMSENSOR2WARNINGMIN)+1);
+          alarmFlag = false;
+        }
+      }
+      else if(alarmFeature == 4){
+        lcd.print("*");
+        if(alarmFlag){
+          EEPROM.write(EEPROMSENSOR2WARNINGMAX,EEPROM.read(EEPROMSENSOR2WARNINGMAX)+1);
+          alarmFlag = false;
+        }
+      }
+      
+      printValue(3,0,true,SENSOR3NAME,EEPROM.read(EEPROMSENSOR3WARNINGMIN),false,false,"");
+      lcd.print("|");
+      printValue(3,11,false,SENSOR3NAME,EEPROM.read(EEPROMSENSOR3WARNINGMAX),true,false,SENSOR3UNITS);
+      if(alarmFeature == 5){
+        lcd.print("*");
+        if(alarmFlag){
+          EEPROM.write(EEPROMSENSOR3WARNINGMIN,EEPROM.read(EEPROMSENSOR3WARNINGMIN)+1);
+          alarmFlag = false;
+        }
+      }
+      else if(alarmFeature == 6){
+        lcd.print("*");
+        if(alarmFlag){
+          EEPROM.write(EEPROMSENSOR3WARNINGMAX,EEPROM.read(EEPROMSENSOR3WARNINGMAX)+1);
+          alarmFlag = false;
+        }
+      }
+      
+      if(alarmFeature == 7){
         alarmFlag=false;
         actualScreen=1;
         settingsSaved();
@@ -369,48 +414,96 @@ void checkValues(){
   sensor5 = getSensorVoltage(SENSOR5);
   sensor6 = getSensorVoltage(SENSOR6);
     
-  if (sensor1 >= SENSOR1WARNING){
+  if (sensor1 <= SENSOR1WARNINGMIN){
     ledBlink(LEDDURATION);    
     if (warningScreen == -1){
       warningScreen=1;
       lcd.clear();
     } 
   }
-  else if (sensor2 >= SENSOR2WARNING){
+  else if (sensor1 >= SENSOR1WARNINGMAX){
+    ledBlink(LEDDURATION);
+    if (warningScreen == -1){
+      warningScreen=1;
+      lcd.clear();
+    }        
+  }
+  
+  /*else if (sensor2 <= SENSOR2WARNINGMIN){
+    ledBlink(LEDDURATION);    
+    if (warningScreen == -1){
+      warningScreen=2;
+      lcd.clear();
+    } 
+  }
+  else if (sensor2 >= SENSOR2WARNINGMAX){
     ledBlink(LEDDURATION);
     if (warningScreen == -1){
       warningScreen=2;
       lcd.clear();
     }        
   }
-  else if (sensor3 >= SENSOR3WARNING){
+  
+  else if (sensor3 <= SENSOR3WARNINGMIN){
+    ledBlink(LEDDURATION);    
+    if (warningScreen == -1){
+      warningScreen=3;
+      lcd.clear();
+    } 
+  }
+  else if (sensor3 >= SENSOR3WARNINGMAX){
     ledBlink(LEDDURATION);
     if (warningScreen == -1){
       warningScreen=3;
       lcd.clear();
     }        
   }
-  else if (sensor4 >= SENSOR4WARNING){
+  
+  else if (sensor4 <= SENSOR4WARNINGMIN){
+    ledBlink(LEDDURATION);    
+    if (warningScreen == -1){
+      warningScreen=4;
+      lcd.clear();
+    } 
+  }
+  else if (sensor4 >= SENSOR4WARNINGMAX){
     ledBlink(LEDDURATION);
     if (warningScreen == -1){
       warningScreen=4;
       lcd.clear();
-    }       
+    }        
   }
-  else if (sensor5 >= SENSOR5WARNING){
+  
+  else if (sensor5 <= SENSOR5WARNINGMIN){
+    ledBlink(LEDDURATION);    
+    if (warningScreen == -1){
+      warningScreen=5;
+      lcd.clear();
+    } 
+  }
+  else if (sensor5 >= SENSOR5WARNINGMAX){
     ledBlink(LEDDURATION);
     if (warningScreen == -1){
       warningScreen=5;
       lcd.clear();
-    }       
+    }        
   }
-  else if (sensor6 >= SENSOR6WARNING){
+  
+  else if (sensor6 <= SENSOR6WARNINGMIN){
+    ledBlink(LEDDURATION);    
+    if (warningScreen == -1){
+      warningScreen=6;
+      lcd.clear();
+    } 
+  }
+  else if (sensor6 >= SENSOR6WARNINGMAX){
     ledBlink(LEDDURATION);
     if (warningScreen == -1){
       warningScreen=6;
       lcd.clear();
-    }       
-  }   
+    }        
+  }*/
+  
   else{
     if (warningScreen >= 0){
       lcd.clear();  //no se puede quitar?
