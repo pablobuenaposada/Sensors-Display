@@ -87,15 +87,15 @@ int SENSOR6WARNINGMIN;
 #define EEPROMSENSOR5WARNINGMIN 12
 #define EEPROMSENSOR6WARNINGMIN 13
 //-------------------------------------
-#define SENSOR1NAME "OLI"
+#define SENSOR1NAME "OIL TEMP"
 #define SENSOR1UNITS "ºC"
 #define SENSOR1BIG "TEMPERATURA OLI"
 #define SENSOR1BIGCOL 2
-#define SENSOR2NAME "OLI"
+#define SENSOR2NAME "OIL PRES"
 #define SENSOR2UNITS "BAR"
 #define SENSOR2BIG "PRESSIO OLI"
 #define SENSOR2BIGCOL 4
-#define SENSOR3NAME "AIGUA"
+#define SENSOR3NAME "WATER   "
 #define SENSOR3UNITS "ºC"
 #define SENSOR3BIG "TEMPERATURA AIGUA"
 #define SENSOR3BIGCOL 1
@@ -192,8 +192,8 @@ void loop() {
   else{
     if(actualScreen == 1){
       printValue(0,0,true,SENSOR1NAME,sensor1,true,false,SENSOR1UNITS);
-      printValue(0,10,false,SENSOR2NAME,sensor2,false,true,SENSOR2UNITS);
-      printValue(1,0,true,SENSOR3NAME,sensor3,true,false,SENSOR3UNITS);
+      printValue(1,0,true,SENSOR2NAME,sensor2,false,true,SENSOR2UNITS);
+      printValue(2,0,true,SENSOR3NAME,sensor3,true,false,SENSOR3UNITS);
     }
     else if(actualScreen == 2){
       bigValue(SENSOR1BIG,SENSOR1BIGCOL,"",0,sensor1,SENSOR1UNITS);
@@ -208,8 +208,8 @@ void loop() {
       lcd.setCursor(PEAKCOL,0);
       lcd.print(PEAKSTRING);
       printValue(1,0,true,SENSOR1NAME,sensor1MAX,true,false,SENSOR1UNITS);
-      printValue(1,10,false,SENSOR2NAME,sensor2MAX,false,true,SENSOR2UNITS);
-      printValue(2,0,true,SENSOR3NAME,sensor3MAX,true,false,SENSOR3UNITS);
+      printValue(2,0,true,SENSOR2NAME,sensor2MAX,false,true,SENSOR2UNITS);
+      printValue(3,0,true,SENSOR3NAME,sensor3MAX,true,false,SENSOR3UNITS);
     }
     else if(actualScreen == 6){
       lcd.setCursor(SETTINGSCOL,0);
@@ -255,9 +255,9 @@ void loop() {
       lcd.setCursor(ALARMNAMECOL,0);
       lcd.print(ALARMNAME);
       
-      printValue(1,0,true,SENSOR1NAME,EEPROM.read(EEPROMSENSOR1WARNINGMIN),false,false,"");
+      printValue(1,0,true,"OIL",EEPROM.read(EEPROMSENSOR1WARNINGMIN),false,false,"");
       lcd.print("|");
-      printValue(1,9,false,SENSOR1NAME,EEPROM.read(EEPROMSENSOR1WARNINGMAX),true,false,SENSOR1UNITS);
+      printValue(1,9,false,"OIL",EEPROM.read(EEPROMSENSOR1WARNINGMAX),true,false,SENSOR1UNITS);
       if(alarmFeature == 1){
         lcd.print("*");
         if(alarmFlag){
@@ -273,9 +273,9 @@ void loop() {
         }
       }
       
-      printValue(2,0,true,SENSOR2NAME,EEPROM.read(EEPROMSENSOR2WARNINGMIN),false,false,"");
+      printValue(2,0,true,"OIL",EEPROM.read(EEPROMSENSOR2WARNINGMIN),false,false,"");
       lcd.print("|");
-      printValue(2,9,false,SENSOR2NAME,EEPROM.read(EEPROMSENSOR2WARNINGMAX),false,false,SENSOR2UNITS);
+      printValue(2,9,false,"OIL",EEPROM.read(EEPROMSENSOR2WARNINGMAX),false,false,SENSOR2UNITS);
       if(alarmFeature == 3){
         lcd.print("*");
         if(alarmFlag){
@@ -291,9 +291,9 @@ void loop() {
         }
       }
       
-      printValue(3,0,true,SENSOR3NAME,EEPROM.read(EEPROMSENSOR3WARNINGMIN),false,false,"");
+      printValue(3,0,true,"WATER",EEPROM.read(EEPROMSENSOR3WARNINGMIN),false,false,"");
       lcd.print("|");
-      printValue(3,11,false,SENSOR3NAME,EEPROM.read(EEPROMSENSOR3WARNINGMAX),true,false,SENSOR3UNITS);
+      printValue(3,11,false,"WATER",EEPROM.read(EEPROMSENSOR3WARNINGMAX),true,false,SENSOR3UNITS);
       if(alarmFeature == 5){
         lcd.print("*");
         if(alarmFlag){
@@ -629,7 +629,7 @@ byte customChar[8] = {
 
 void button1ISR(){
   unsigned long interrupt_time = millis();  
-  if (interrupt_time - last_interrupt_time > DEBOUNCING){
+  if (interrupt_time - last_interrupt_time > DEBOUNCING){    
     if(actualScreen == TOTALSCREENS+1){
       featureFlag=true;       
     }
@@ -653,7 +653,7 @@ void button1ISR(){
 
 void button2ISR(){  
   unsigned long interrupt_time = millis();  
-  if (interrupt_time - last_interrupt_time > DEBOUNCING){ 
+  if (interrupt_time - last_interrupt_time > DEBOUNCING){    
     unsigned long timePressed = 0;
     while(digitalRead(BUTTON2) == LOW && timePressed < ALARMPRESSINGTIME){
       timePressed+=1;
