@@ -20,8 +20,8 @@ void setup() {
   speaker.speakerTone(50);
   speaker.setStatus(EEPROM.read(constants.EEPROMSPEAKER));  
   screen.initialScreen(constants.INITCOL1,constants.INITCOL2,constants.INITCOL3,constants.INITCOL4,constants.INITSTRING1,constants.INITSTRING2,constants.INITSTRING3,constants.INITSTRING4);  
-  led.ledBlink(2000);
-  led.ledBlink(2000);  
+  led.ledBlink(8000);
+  led.ledBlink(8000);  
   screen.clear();
 }
 
