@@ -15,16 +15,16 @@ float Sensors::getSensorVoltage(int sensor){
   return (analogRead(sensor)/1024.000)*5;
 }
 
-//for VDO 323-057 150º celsius with voltage divider of 56ohms@1W and Vin=5.00 volts
+//for VDO 323-057 150º celsius with voltage divider of 220ohms@1W and Vin=5.00 volts
 float Sensors::getTemp057(int sensor){
   float volts=getSensorVoltage(sensor);
-  return -1.977905036*pow(10,-1)*pow(volts,10)+5.021263808*pow(volts,9)-54.79044923*pow(volts,8)+335.8665566*pow(volts,7)-1268.136896*pow(volts,6)+3037.582741*pow(volts,5)-4566.827221*pow(volts,4)+4061.676731*pow(volts,3)-1782.286594*pow(volts,2)+53.30656433*volts+342.0406525;
+  return -0.05007201037*pow(volts,10) + 1.171260711*pow(volts,9) - 11.55461723*pow(volts,8) + 62.20510364*pow(volts,7) - 196.4010868*pow(volts,6) + 356.468504*pow(volts,5) - 305.3996258*pow(volts,4) - 57.02805328*pow(volts,3) + 378.5236931*pow(volts,2) - 366.4523339*volts + 243.2379721;
 }
 
-//for VDO 360-004 10 BAR pressure sender with voltage divider of 56ohms@1W and Vin=5.00 volts
+//for VDO 360-004 10 BAR pressure sender with voltage divider of 220ohms@1W and Vin=5.00 volts
 float Sensors::getPress004(int sensor){
   float volts=getSensorVoltage(sensor);
-  return 5.764606735*pow(10,-2)*pow(volts,7)-8.432134613*pow(10,-1)*pow(volts,6)+5.133446336*pow(volts,5)-16.67003584*pow(volts,4)+31.04020166*pow(volts,3)-32.73438168*pow(volts,2)+18.74930835*volts-4.552292049;
+  return 0.345207949*pow(volts,8) - 3.597256695*pow(volts,7) + 15.88816089*pow(volts,6) - 38.43159587*pow(volts,5) + 55.09001405*pow(volts,4) - 46.88577533*pow(volts,3) + 23.34568903*pow(volts,2) - 3.67372459*volts + 0.07053106278;
 }
 
 
