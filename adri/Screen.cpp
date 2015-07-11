@@ -1,15 +1,24 @@
 #include "Screen.h"
 #include "Constants.h"
-#include "LiquidCrystal.h"
-#include "phi_big_font.h"
+#include <LiquidCrystal_I2C.h>
 
-LiquidCrystal lcd(13,12,11,10,9,8);
+LiquidCrystal_I2C lcd(0x3f, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
 
-Screen::Screen(){
-  lcd.begin (20,4);
-  init_big_font(&lcd);
+Screen::Screen(){}
+
+void Screen::init(){
+  lcd.begin(20,4);
 }
 
+void Screen::backlight(boolean status){
+  if (status == true){
+    lcd.backlight();
+  }
+  else{
+    lcd.noBacklight();
+  }
+}
+  
 void Screen::initialScreen(int col1, int col2, int col3, int col4, String string1, String string2, String string3, String string4){
   lcd.setCursor(col1,0);
   lcd.print(string1);
@@ -82,7 +91,7 @@ void Screen::print(String string){
 }
 
 void Screen::bigValue(String title, int colTitle,String subTitle, int colSubtitle, int value, String units){ 
-  lcd.setCursor(colTitle,0);
+  /*lcd.setCursor(colTitle,0);
   lcd.print(title);  
 
   String stringValue;
@@ -111,6 +120,6 @@ void Screen::bigValue(String title, int colTitle,String subTitle, int colSubtitl
   }  
 
   lcd.setCursor(colSubtitle,3);
-  lcd.print(subTitle);
+  lcd.print(subTitle);*/
 }
 

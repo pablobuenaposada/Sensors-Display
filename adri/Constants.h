@@ -30,12 +30,16 @@ class Constants{
     static int INITCOL4;
     static String INITSTRING4;
     
-    static int SENSOR1;  //VDO 150 grados
-    static int SENSOR2; //presion 
-    static int SENSOR3; //VDO 120 grados
-    static int SENSOR4;
-    static int SENSOR5;
-    static int SENSOR6;
+    static int REFRESHRATE;
+    
+    static int SENSORMCP1;  //VDO 150 grados
+    static int SENSORMCP2; //presion 
+    static int SENSORMCP3; //VDO 120 grados
+    static int SENSORMCP4;
+    static int SENSORMCP5;
+    static int SENSORMCP6;
+    static int SENSORMCP7;
+    static int SENSORMCP8;
     
     static String WARNINGSTRING;
     static int WARNINGCOL;

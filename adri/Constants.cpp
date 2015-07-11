@@ -17,6 +17,8 @@ int Constants::BUTTON1=2;
 int Constants::BUTTON2=3;
 int Constants::TOTALSCREENS=5;
 
+int Constants::REFRESHRATE=200;
+
 int Constants::INITCOL1=0;
 String Constants::INITSTRING1="";
 int Constants::INITCOL2=3;
@@ -26,12 +28,14 @@ String Constants::INITSTRING3="ADRI EP3";
 int Constants::INITCOL4=0;
 String Constants::INITSTRING4="";
 
-int Constants::SENSOR1=A0;  //VDO 150 grados
-int Constants::SENSOR2=A1; //presion 
-int Constants::SENSOR3=A2; //VDO 120 grados
-int Constants::SENSOR4=A3;
-int Constants::SENSOR5=A4;
-int Constants::SENSOR6=A5;
+int Constants::SENSORMCP1=1;  //VDO 150 grados
+int Constants::SENSORMCP2=2; //presion 
+int Constants::SENSORMCP3=3; //VDO 120 grados
+int Constants::SENSORMCP4=4;
+int Constants::SENSORMCP5=5;
+int Constants::SENSORMCP6=6;
+int Constants::SENSORMCP7=7;
+int Constants::SENSORMCP8=8;
 
 String Constants::WARNINGSTRING="WARNING!! DANGER!!";
 int Constants::WARNINGCOL=1;
