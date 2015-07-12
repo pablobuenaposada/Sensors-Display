@@ -86,8 +86,26 @@ float Sensors::getTemp057(int sensor){
 
 //for VDO 360-004 10 BAR pressure sender with voltage divider of 220ohms@1W and Vin=5.00 volts
 float Sensors::getPress004(int sensor){
-  float volts=getSensorVoltage(sensor);
-  return 0.345207949*pow(volts,8) - 3.597256695*pow(volts,7) + 15.88816089*pow(volts,6) - 38.43159587*pow(volts,5) + 55.09001405*pow(volts,4) - 46.88577533*pow(volts,3) + 23.34568903*pow(volts,2) - 3.67372459*volts + 0.07053106278;
+  float volts = (read_mcp(sensor)/4095.0)*5.0;
+  float v = volts ;
+
+  float rv = -4.552292049;
+  rv += +18.74930835 * v; // pow(volts, 1)
+  v*= volts;
+  rv += -32.73438168 * v;  // 2
+  v*= volts;
+  rv += +31.04020166 * v;  // 3
+  v*= volts;
+  rv += -16.67003584 * v;  // 4
+  v*= volts;
+  rv += +5.133446336 * v;  // 5
+  v*= volts;
+  rv += -0.8432134613 * v; // 6
+  v*= volts;
+  rv += +0.05764606735 * v;// 7
+ 
+  return rv;
+
 }
 
 

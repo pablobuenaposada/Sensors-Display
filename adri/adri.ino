@@ -27,8 +27,8 @@ void loop() {
 
 void checkValues(){
   variables.sensor1 = sensors.getTemp057(constants.SENSORMCP1);
-  variables.sensor2 = sensors.getPress004(constants.SENSORMCP2);
-  variables.sensor3 = 0;
+  variables.sensor2 = sensors.getPress004(constants.SENSORMCP3);
+  variables.sensor3 = sensors.getTemp057(constants.SENSORMCP5);
   variables.sensor4 = 0;
   variables.sensor5 = 0;
   variables.sensor6 = 0;
