@@ -38,18 +38,11 @@ void checkValues(){
 }
 
 void openingCeremony(){
-  screen.backlight(true);
-  redLed.blink(250);
-  screen.backlight(false);
-  delay(250);
-  screen.backlight(true);
-  redLed.blink(250);
-  screen.backlight(false);
-  delay(250);
-  redLed.setStatus(true);
-  screen.backlight(true);
   screen.initialScreen(constants.INITCOL1,constants.INITCOL2,constants.INITCOL3,constants.INITCOL4,constants.INITSTRING1,constants.INITSTRING2,constants.INITSTRING3,constants.INITSTRING4);
   for(int i=0; i <= 2; i++) redLed.fade(15);
+  screen.backlight(false);
+  delay(250);
+  screen.backlight(true);
 }
 
 

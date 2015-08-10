@@ -24,7 +24,7 @@ String Constants::INITSTRING1="";
 int Constants::INITCOL2=3;
 String Constants::INITSTRING2="RACING DISPLAY";
 int Constants::INITCOL3=5;
-String Constants::INITSTRING3="ADRI EP3";
+String Constants::INITSTRING3="ADRi EP3";
 int Constants::INITCOL4=0;
 String Constants::INITSTRING4="";
 
