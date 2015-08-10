@@ -5,16 +5,19 @@
 #include "Sensors.h"
 #include "Screen.h"
 #include "Variables.h"
+#include "Led.h"
 
 Constants constants;
 Variables variables;
 Sensors sensors;
 Screen screen;
+Led redLed(constants.LED);
 
 void setup() {
   screen.init();
   openingCeremony();
   screen.clear();
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -26,9 +29,9 @@ void loop() {
 }
 
 void checkValues(){
-  variables.sensor1 = sensors.getTemp057(constants.SENSORMCP1);
-  variables.sensor2 = sensors.getPress004(constants.SENSORMCP3);
-  variables.sensor3 = sensors.getTemp057(constants.SENSORMCP5);
+  variables.sensor1 = sensors.getTemp323057(constants.SENSORMCP1);
+  variables.sensor2 = sensors.getPress360004(constants.SENSORMCP3);
+  variables.sensor3 = sensors.getTemp323059(constants.SENSORMCP5);
   variables.sensor4 = 0;
   variables.sensor5 = 0;
   variables.sensor6 = 0;
@@ -36,16 +39,17 @@ void checkValues(){
 
 void openingCeremony(){
   screen.backlight(true);
-  delay(250);
+  redLed.blink(250);
   screen.backlight(false);
   delay(250);
   screen.backlight(true);
-  delay(250);
+  redLed.blink(250);
   screen.backlight(false);
   delay(250);
+  redLed.setStatus(true);
   screen.backlight(true);
   screen.initialScreen(constants.INITCOL1,constants.INITCOL2,constants.INITCOL3,constants.INITCOL4,constants.INITSTRING1,constants.INITSTRING2,constants.INITSTRING3,constants.INITSTRING4);
-  delay(5000);  
+  for(int i=0; i <= 2; i++) redLed.fade(15);
 }
 
 

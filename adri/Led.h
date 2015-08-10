@@ -5,8 +5,12 @@
 
 class Led{
   public:
-    Led();
-    void ledBlink(int delayTime);
+    Led(int outPin);
+    void blink(int delayTime);
+    void setStatus(boolean mode);
+    void fade(int delayTime);
+  private:
+    int pin;
 };
 
 #endif

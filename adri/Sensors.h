@@ -6,8 +6,9 @@
 class Sensors{
   public:
     Sensors();
-    float getTemp057(int sensor);
-    float getPress004(int sensor);
+    float getTemp323057(int sensor);
+    float getTemp323059(int sensor);
+    float getPress360004(int sensor);
   private:
     float getSensorVoltage(int sensor);
 };
