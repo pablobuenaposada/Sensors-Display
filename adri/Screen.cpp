@@ -90,6 +90,14 @@ void Screen::print(String string){
   lcd.print(string);
 }
 
+void Screen::storeCustomChar(int pos,uint8_t character[]){
+  lcd.createChar(pos,character);
+}
+
+void Screen::printCustomChar(int pos){
+  lcd.write((byte)pos);
+}
+
 void Screen::bigValue(String title, int colTitle,String subTitle, int colSubtitle, int value, String units){ 
   /*lcd.setCursor(colTitle,0);
   lcd.print(title);  

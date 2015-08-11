@@ -22,9 +22,9 @@ int Constants::REFRESHRATE=200;
 int Constants::INITCOL1=0;
 String Constants::INITSTRING1="";
 int Constants::INITCOL2=3;
-String Constants::INITSTRING2="RACING DISPLAY";
+String Constants::INITSTRING2="DIGITAL DISPLAY";
 int Constants::INITCOL3=5;
-String Constants::INITSTRING3="ADRi EP3";
+String Constants::INITSTRING3="ADRi";
 int Constants::INITCOL4=0;
 String Constants::INITSTRING4="";
 

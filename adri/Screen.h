@@ -15,6 +15,8 @@ class Screen{
    void print(String string);
    void bigValue(String title, int colTitle,String subTitle, int colSubtitle, int value, String units);
    void settingsSaved();
+   void storeCustomChar(int pos,uint8_t character[]);
+   void printCustomChar(int pos);
 };
 
 #endif
