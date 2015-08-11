@@ -74,4 +74,6 @@ String Constants::SENSOR5UNITS="";
 String Constants::SENSOR6NAME="";
 String Constants::SENSOR6UNITS="";
 
+String Constants::TIMENAME="RUN TIME";
+
 

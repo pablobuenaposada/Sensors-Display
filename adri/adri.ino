@@ -7,6 +7,7 @@
 #include "Variables.h"
 #include "Led.h"
 #include "Buttons.h"
+#include "Runtime.h"
 
 Constants constants;
 Variables variables;
@@ -14,6 +15,7 @@ Sensors sensors;
 Screen screen;
 Led redLed(constants.LED);
 Buttons buttons;
+Runtime time;
 
 void setup() {
   screen.init();
@@ -26,6 +28,8 @@ void loop() {
   screen.printValue(0,0,true,constants.SENSOR1NAME,variables.sensor1,true,false,constants.SENSOR1UNITS);
   screen.printValue(1,0,true,constants.SENSOR2NAME,variables.sensor2,false,true,constants.SENSOR2UNITS);
   screen.printValue(2,0,true,constants.SENSOR3NAME,variables.sensor3,true,false,constants.SENSOR3UNITS);
+  screen.setCursor(0,3);
+  screen.print(constants.TIMENAME+": "+time.getTime());
   delay(constants.REFRESHRATE);
 }
 

@@ -75,7 +75,9 @@ class Constants{
     static String SENSOR5NAME;
     static String SENSOR5UNITS;
     static String SENSOR6NAME;
-    static String SENSOR6UNITS;  
+    static String SENSOR6UNITS; 
+     
+    static String TIMENAME; 
 
 };
 
