@@ -2,9 +2,13 @@
 #include "Constants.h"
 #include "Variables.h"
 #include "Screen.h"
+#include "Led.h"
 
 void button1ISR(){
-  Variables variables;
+  Constants constants;
+  Led redLed(constants.LED);
+  redLed.setStatus(true);
+  /*Variables variables;
   Constants constants;
   Screen screen;
   unsigned long interrupt_time = millis();
@@ -28,11 +32,14 @@ void button1ISR(){
     screen.clear();
     variables.warningScreen=0;    
   }  
-  variables.last_interrupt_time = interrupt_time;  
+  variables.last_interrupt_time = interrupt_time; */ 
 }
 
 void button2ISR(){  
-  Variables variables;
+  Constants constants;
+  Led redLed(constants.LED);
+  redLed.setStatus(false);
+  /*Variables variables;
   Constants constants;
   Screen screen;
   unsigned long interrupt_time = millis();  
@@ -62,7 +69,7 @@ void button2ISR(){
     variables.warningScreen=0;    
   }
  
-  variables.last_interrupt_time = interrupt_time;   
+  variables.last_interrupt_time = interrupt_time; */  
 }
 
 Buttons::Buttons(){

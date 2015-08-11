@@ -6,12 +6,14 @@
 #include "Screen.h"
 #include "Variables.h"
 #include "Led.h"
+#include "Buttons.h"
 
 Constants constants;
 Variables variables;
 Sensors sensors;
 Screen screen;
 Led redLed(constants.LED);
+Buttons buttons;
 
 void setup() {
   screen.init();
