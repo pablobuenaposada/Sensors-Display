@@ -50,3 +50,5 @@ float Variables::sensor3MAX=-999;
 float Variables::sensor4MAX=-999;
 float Variables::sensor5MAX=-999;
 float Variables::sensor6MAX=-999;
+
+boolean Variables::clearLCD=false;

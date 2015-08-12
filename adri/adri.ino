@@ -6,7 +6,6 @@
 #include "Screen.h"
 #include "Variables.h"
 #include "Led.h"
-#include "Buttons.h"
 #include "Runtime.h"
 
 Constants constants;
@@ -14,23 +13,40 @@ Variables variables;
 Sensors sensors;
 Screen screen;
 Led redLed(constants.LED);
-Buttons buttons;
 Runtime time;
 
 void setup() {
   screen.init();
   openingCeremony();
   screen.clear();
+  setupButtons();
 }
 
 void loop() {
-  checkValues(); 
+  checkValues();
+  if (variables.clearLCD){
+    variables.clearLCD=false;
+    screen.clear();
+  }
+  if (variables.actualScreen == 2) peakScreen();
+  else mainScreen();
+  delay(constants.REFRESHRATE);
+}
+
+void mainScreen(){
   screen.printValue(0,0,true,constants.SENSOR1NAME,variables.sensor1,true,false,constants.SENSOR1UNITS);
   screen.printValue(1,0,true,constants.SENSOR2NAME,variables.sensor2,false,true,constants.SENSOR2UNITS);
   screen.printValue(2,0,true,constants.SENSOR3NAME,variables.sensor3,true,false,constants.SENSOR3UNITS);
   screen.setCursor(0,3);
   screen.print(constants.TIMENAME+": "+time.getTime());
-  delay(constants.REFRESHRATE);
+}
+
+void peakScreen(){
+  screen.setCursor(4,0);
+  screen.print(constants.PEAKNAME);
+  screen.printValue(1,0,true,constants.SENSOR1NAME,variables.sensor1MAX,true,false,constants.SENSOR1UNITS);
+  screen.printValue(2,0,true,constants.SENSOR2NAME,variables.sensor2MAX,false,true,constants.SENSOR2UNITS);
+  screen.printValue(3,0,true,constants.SENSOR3NAME,variables.sensor3MAX,true,false,constants.SENSOR3UNITS);
 }
 
 void checkValues(){
@@ -40,6 +56,13 @@ void checkValues(){
   variables.sensor4 = 0;
   variables.sensor5 = 0;
   variables.sensor6 = 0;
+  
+  if(variables.sensor1 > variables.sensor1MAX) variables.sensor1MAX=variables.sensor1;
+  if(variables.sensor2 > variables.sensor2MAX) variables.sensor2MAX=variables.sensor2;
+  if(variables.sensor3 > variables.sensor3MAX) variables.sensor3MAX=variables.sensor3;
+  if(variables.sensor4 > variables.sensor4MAX) variables.sensor4MAX=variables.sensor4;
+  if(variables.sensor5 > variables.sensor5MAX) variables.sensor5MAX=variables.sensor5;
+  if(variables.sensor6 > variables.sensor6MAX) variables.sensor6MAX=variables.sensor6;
 }
 
 void openingCeremony(){
@@ -58,6 +81,29 @@ void openingCeremony(){
   screen.backlight(false);
   delay(250);
   screen.backlight(true);
+}
+
+void setupButtons(){
+  pinMode(constants.BUTTON1,INPUT);
+  digitalWrite(constants.BUTTON1,HIGH);
+  attachInterrupt(0,button1ISR, LOW);
+  
+  pinMode(constants.BUTTON2,INPUT);
+  digitalWrite(constants.BUTTON2,HIGH);
+  attachInterrupt(1,button2ISR, LOW);
+}
+
+void button1ISR(){
+  unsigned long interrupt_time = millis();
+  if (interrupt_time - variables.last_interrupt_time > constants.DEBOUNCING){
+    variables.actualScreen = variables.actualScreen+1;
+    if (variables.actualScreen > constants.TOTALSCREENS) variables.actualScreen=1;
+    variables.clearLCD = true;
+  }
+  variables.last_interrupt_time = interrupt_time;
+}
+
+void button2ISR(){
 }
 
 

@@ -15,7 +15,7 @@ int Constants::ALARMNAMECOL=4;
 int Constants::DEBOUNCING=100;
 int Constants::BUTTON1=2;
 int Constants::BUTTON2=3;
-int Constants::TOTALSCREENS=5;
+int Constants::TOTALSCREENS=2;
 
 int Constants::REFRESHRATE=200;
 
@@ -39,7 +39,7 @@ int Constants::SENSORMCP8=8;
 
 String Constants::WARNINGSTRING="WARNING!! DANGER!!";
 int Constants::WARNINGCOL=1;
-String Constants::PEAKSTRING="PEAK  VALUES";
+String Constants::PEAKNAME="PEAK  VALUES";
 int Constants::PEAKCOL=4;
 
 int Constants::EEPROMSENSOR1WARNINGMAX=2;

@@ -43,7 +43,7 @@ class Constants{
     
     static String WARNINGSTRING;
     static int WARNINGCOL;
-    static String PEAKSTRING;
+    static String PEAKNAME;
     static int PEAKCOL;
     
     static int EEPROMSENSOR1WARNINGMAX;

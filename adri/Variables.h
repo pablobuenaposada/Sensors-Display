@@ -37,6 +37,8 @@ class Variables{
    static float sensor4MAX;
    static float sensor5MAX;
    static float sensor6MAX;
+   
+   static boolean clearLCD;
 };
 
 #endif
