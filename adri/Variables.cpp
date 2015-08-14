@@ -5,7 +5,7 @@
 
 Variables::Variables(){
   Constants constants;
-  SENSOR1WARNINGMAX=EEPROM.read(constants.EEPROMSENSOR1WARNINGMAX);
+  /*SENSOR1WARNINGMAX=EEPROM.read(constants.EEPROMSENSOR1WARNINGMAX);
   SENSOR2WARNINGMAX=EEPROM.read(constants.EEPROMSENSOR2WARNINGMAX);
   SENSOR3WARNINGMAX=EEPROM.read(constants.EEPROMSENSOR3WARNINGMAX);
   SENSOR4WARNINGMAX=EEPROM.read(constants.EEPROMSENSOR4WARNINGMAX);
@@ -16,12 +16,12 @@ Variables::Variables(){
   SENSOR3WARNINGMIN=EEPROM.read(constants.EEPROMSENSOR3WARNINGMIN);
   SENSOR4WARNINGMIN=EEPROM.read(constants.EEPROMSENSOR4WARNINGMIN);
   SENSOR5WARNINGMIN=EEPROM.read(constants.EEPROMSENSOR5WARNINGMIN);
-  SENSOR6WARNINGMIN=EEPROM.read(constants.EEPROMSENSOR6WARNINGMIN);
+  SENSOR6WARNINGMIN=EEPROM.read(constants.EEPROMSENSOR6WARNINGMIN);*/
 }
 
 int Variables::actualScreen=1;
 unsigned long Variables::last_interrupt_time=0;
-int Variables::feature;
+int Variables::feature=0;
 boolean Variables::featureFlag;
 int Variables::alarmfeature;
 boolean Variables::alarmFlag;
